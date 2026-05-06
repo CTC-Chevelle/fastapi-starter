@@ -1,0 +1,27 @@
+{% extends "authenticated-base.html" %}
+{% block subpage_content %}
+<div class="col-12">
+    <div class="card shadow-sm p-4">
+        <h4 class="mb-4">My Todos</h4>
+        <form method="POST" action="/todos" class="d-flex gap-2 mb-4">
+            <input type="text" name="text" class="form-control" placeholder="Enter todo text" required>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <ul class="list-group">
+            {% for todo in todos %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span {% if todo.done %}style="text-decoration: line-through; color: grey;"{% endif %}>
+                    {{ todo.text }}
+                </span>
+                <div class="d-flex gap-2">
+                    <a href="/todos/toggle/{{ todo.id }}" class="btn btn-sm btn-outline-success">
+                        {{ "Undo" if todo.done else "Done" }}
+                    </a>
+                    <a href="/todos/delete/{{ todo.id }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
